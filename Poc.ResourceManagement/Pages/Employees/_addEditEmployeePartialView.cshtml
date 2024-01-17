@@ -1,0 +1,56 @@
+﻿@model Poc.ResourceManagement.Pages.Model.EmployeeDto
+<!-- Modal -->
+<div class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+                <form id="form-Employee" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEditEmployeeTitle">Add Employee</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.AntiForgeryToken()
+
+                    <input asp-for="Id" type="hidden" class="form-control" name="Id" />
+
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <div class="form-group mb-2">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" name="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="DateOfBirth"></label>
+                        <input asp-for="DateOfBirth" max=@DateTime.Today.ToString("yyyy'-'MM'-'dd") id="txtDOB" type="date" class="form-control" name="DateOfBirth" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="inputDepartment">Department:</label>
+                        <select class="form-control" asp-for="DepartmentId" asp-items="Model.Departments"></select>
+                        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <br />
+                        <input type="radio" asp-for="Gender" value="Male" name="Gender" id="Male">   <label for="Male"> Male</label>
+                        <input type="radio" asp-for="Gender" value="Female" name="Gender" id="Female" />    <label for="Female"> Female</label>
+                        <br />
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" >Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+                </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity = "sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin = "anonymous" referrerpolicy = "no-referrer" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+                        

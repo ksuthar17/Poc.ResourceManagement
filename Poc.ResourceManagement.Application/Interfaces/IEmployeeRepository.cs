@@ -5,7 +5,7 @@ namespace Poc.Application.Interfaces
 {
     public interface IEmployeeRepository
     {
-       Task<Result> GetEmployees();
+       Task<EmployeeResponse> GetEmployees(JqueryDataTableParams jparams);
        Task<Result> InsertAsync(Employee employee);
        Task<Result> UpdateAsync(Employee employee);
        Task<Result> DeleteAsync(int Id);

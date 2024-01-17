@@ -11,7 +11,7 @@ namespace Poc.ResourceManagement.Domain.Entities
         public int DepartmentId { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
-
+        public string? Gender { get; set; }
 
     }
 }

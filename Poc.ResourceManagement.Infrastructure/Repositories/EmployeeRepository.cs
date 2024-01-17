@@ -31,18 +31,36 @@ namespace Poc.ResourceManagement.Infrastructure.Repositories
                          "Employee.DeleteFailled", "Delete Failled"));
         }
 
-        public async Task<Result> GetEmployees()
+        public async Task<EmployeeResponse> GetEmployees(JqueryDataTableParams jparams)
         {
-            using (var connection = dapperContext.CreateConnection())
+            try
             {
-                var employees = await connection.QueryAsync<Employee>("sp_GetEmployees" , 
-                                 commandType: CommandType.StoredProcedure);
+                EmployeeResponse response = new EmployeeResponse();
+                using (var connection = dapperContext.CreateConnection())
+                {
+                    if (string.IsNullOrEmpty(jparams.SortColumn))
+                    {
+                        jparams.SortColumn = "Name";
+                    }
+                    var parameters = new DynamicParameters();
+                    parameters.Add("SORT_COLUMN", jparams.SortColumn);
+                    parameters.Add("SORT_COLUMN_DIRECTION", jparams.SortColumnDirection);
+                    parameters.Add("SEARCH_TEXT", jparams.SearchText);
+                    parameters.Add("PAGESIZE", jparams.PageSize);
+                    parameters.Add("SKIP", jparams.Skip);
 
-                if(employees != null) return Result.Success(employees);
+                    var result = await connection.QueryMultipleAsync("sp_GetEmployees", parameters,
+                                     commandType: CommandType.StoredProcedure);
+
+                    response.Employees = result.Read<Employee>().ToList();
+                    response.TotalRecors = result.Read<int>().FirstOrDefault();
+                }
+
+                return response;
+            }catch (Exception ex)
+            {
+                throw ex;
             }
-
-            return Result.Failure(new Error(
-                         "Employee.NotFound", "No records found"));
         }
 
         public async Task<Result> InsertAsync(Employee employee)
@@ -53,6 +71,7 @@ namespace Poc.ResourceManagement.Infrastructure.Repositories
                 parameters.Add("Name", employee.Name);
                 parameters.Add("DateOfBirth", employee.DateOfBirth);
                 parameters.Add("DepartmentId", employee.DepartmentId);
+                parameters.Add("Gender", employee.Gender);
 
                 var result = await connection.ExecuteAsync("sp_InsertEmployee", parameters,
                                  commandType: CommandType.StoredProcedure);
@@ -73,6 +92,7 @@ namespace Poc.ResourceManagement.Infrastructure.Repositories
                 parameters.Add("Name", employee.Name);
                 parameters.Add("DateOfBirth", employee.DateOfBirth);
                 parameters.Add("DepartmentId", employee.DepartmentId);
+                parameters.Add("Gender", employee.Gender);
 
                 var result = await connection.ExecuteAsync("sp_UpdateEmployee", parameters,
                                  commandType: CommandType.StoredProcedure);

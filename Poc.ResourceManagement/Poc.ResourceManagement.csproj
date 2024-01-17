@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Poc.ResourceManagement.Application\Poc.ResourceManagement.Application.csproj" />
+    <ProjectReference Include="..\Poc.ResourceManagement.Infrastructure\Poc.ResourceManagement.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

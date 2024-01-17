@@ -1,8 +1,17 @@
+using Poc.Application.Interfaces;
+using Poc.ResourceManagement.Application.Interfaces;
+using Poc.ResourceManagement.Infrastructure.Data;
+using Poc.ResourceManagement.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddMvc();
+
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddSingleton<DapperContext>();
 
 var app = builder.Build();
 
